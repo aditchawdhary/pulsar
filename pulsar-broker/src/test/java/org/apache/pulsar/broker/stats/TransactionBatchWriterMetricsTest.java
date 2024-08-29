@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.broker.stats;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.apache.pulsar.common.policies.data.PoliciesUtil.getBundles;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -278,7 +279,7 @@ public class TransactionBatchWriterMetricsTest extends MockedPulsarServiceBaseTe
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         List<String> list = new ArrayList<>();
         while (true){
-            String str = bufferedReader.readLine();
+            String str = BoundedLineReader.readLine(bufferedReader, 5_000_000);
             if (str == null){
                 break;
             }

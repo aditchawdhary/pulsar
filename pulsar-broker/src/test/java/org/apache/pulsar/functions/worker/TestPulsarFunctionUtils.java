@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.functions.worker;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.nio.charset.StandardCharsets;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +49,7 @@ public class TestPulsarFunctionUtils {
         conn.setRequestMethod("GET");
         BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String line;
-        while ((line = rd.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(rd, 5_000_000)) != null) {
             result.append(line + System.lineSeparator());
         }
         rd.close();
