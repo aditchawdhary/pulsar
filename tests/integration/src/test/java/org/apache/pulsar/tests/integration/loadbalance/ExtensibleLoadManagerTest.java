@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.tests.integration.loadbalance;
 
+import java.security.SecureRandom;
 import static org.apache.pulsar.tests.integration.containers.PulsarContainer.BROKER_HTTP_PORT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
@@ -447,7 +448,7 @@ public class ExtensibleLoadManagerTest extends TestRetrySupport {
     }
 
     private int generateRandomExcludingX(int n, int x) {
-        Random random = new Random();
+        Random random = new SecureRandom();
         int randomNumber;
 
         do {

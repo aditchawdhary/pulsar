@@ -18,6 +18,7 @@
  */
 package org.apache.bookkeeper.replication;
 
+import java.security.SecureRandom;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -637,7 +638,7 @@ public class AuditorLedgerCheckerTest extends BookKeeperClusterTestCase {
         // When Auditor does audit it recognizes these ledgers as underreplicated and mark them as
         // under-replicated, since these bookies are not available.
         int numofledgers = 5;
-        Random rand = new Random();
+        Random rand = new SecureRandom();
         for (int i = 0; i < numofledgers; i++) {
             ArrayList<BookieId> ensemble = new ArrayList<BookieId>();
             ensemble.add(new BookieSocketAddress("99.99.99.99:9999").toBookieId());

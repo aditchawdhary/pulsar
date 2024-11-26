@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.transaction.coordinator.impl;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -63,7 +64,7 @@ public class TxnBatchedPositionImplTest {
 
     @DataProvider(name = "testHashcodeAndEqualsData")
     public Object[][] testHashcodeAndEqualsData(){
-        Random random = new Random();
+        Random random = new SecureRandom();
         return new Object[][]{
                 {1,2, 10, 5},
                 {123,1523, 64, 0},
@@ -86,7 +87,7 @@ public class TxnBatchedPositionImplTest {
     @Test(dataProvider = "testHashcodeAndEqualsData")
     public void testKeyInMap(long ledgerId, long entryId, int batchSize, int batchIndex){
         // build data.
-        Random random = new Random();
+        Random random = new SecureRandom();
         int v = random.nextInt();
         PositionImpl position = new PositionImpl(ledgerId, entryId);
         TxnBatchedPositionImpl txnBatchedPosition = new TxnBatchedPositionImpl(position, batchSize, batchIndex);

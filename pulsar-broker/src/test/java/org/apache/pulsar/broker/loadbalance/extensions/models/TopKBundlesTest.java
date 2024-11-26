@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.broker.loadbalance.extensions.models;
 
+import java.security.SecureRandom;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -239,7 +240,7 @@ public class TopKBundlesTest {
     @Test
     public void testPartitionSort() {
 
-        Random rand = new Random();
+        Random rand = new SecureRandom();
         List<Map.Entry<String, ? extends Comparable>> actual = new ArrayList<>();
         List<Map.Entry<String, ? extends Comparable>> expected = new ArrayList<>();
 

@@ -19,6 +19,7 @@
 package org.apache.pulsar.broker.service;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import java.security.SecureRandom;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -218,7 +219,7 @@ public class BatchMessageTest extends BrokerTestBase {
                 .batcherBuilder(builder)
                 .create();
 
-        Random random = new Random();
+        Random random = new SecureRandom();
         List<CompletableFuture<MessageId>> sendFutureList = new ArrayList<>();
         for (int i = 0; i < numMsgs; i++) {
             // put a random sleep from 0 to 3 ms
@@ -254,7 +255,7 @@ public class BatchMessageTest extends BrokerTestBase {
                 .batcherBuilder(builder)
                 .compressionType(compressionType).enableBatching(true).create();
 
-        Random random = new Random();
+        Random random = new SecureRandom();
         List<CompletableFuture<MessageId>> sendFutureList = new ArrayList<>();
         for (int i = 0; i < numMsgs; i++) {
             // put a random sleep from 0 to 3 ms

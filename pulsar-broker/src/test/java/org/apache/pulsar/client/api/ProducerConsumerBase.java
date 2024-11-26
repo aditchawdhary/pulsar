@@ -21,6 +21,7 @@ package org.apache.pulsar.client.api;
 import com.google.common.collect.Sets;
 
 import java.lang.reflect.Method;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -68,7 +69,7 @@ public abstract class ProducerConsumerBase extends MockedPulsarServiceBaseTest {
         Assert.assertTrue(messagesReceived.add(receivedMessage), "Received duplicate message " + receivedMessage);
     }
 
-    private static final Random random = new Random();
+    private static final Random random = new SecureRandom();
 
     protected String newTopicName() {
         return "my-property/my-ns/topic-" + Long.toHexString(random.nextLong());

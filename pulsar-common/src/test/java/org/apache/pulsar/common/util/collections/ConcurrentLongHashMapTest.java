@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.common.util.collections;
 
+import java.security.SecureRandom;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNull;
@@ -369,7 +370,7 @@ public class ConcurrentLongHashMapTest {
             final int threadIdx = i;
 
             futures.add(executor.submit(() -> {
-                Random random = new Random();
+                Random random = new SecureRandom();
 
                 for (int j = 0; j < N; j++) {
                     long key = random.nextLong();
@@ -404,7 +405,7 @@ public class ConcurrentLongHashMapTest {
             final int threadIdx = i;
 
             futures.add(executor.submit(() -> {
-                Random random = new Random();
+                Random random = new SecureRandom();
 
                 for (int j = 0; j < N; j++) {
                     long key = random.nextLong();

@@ -19,6 +19,7 @@
 package org.apache.pulsar.broker.loadbalance.impl;
 
 import static java.lang.Thread.sleep;
+import java.security.SecureRandom;
 import static org.apache.pulsar.broker.resources.LoadBalanceResources.BROKER_TIME_AVERAGE_BASE_PATH;
 import static org.apache.pulsar.broker.resources.LoadBalanceResources.BUNDLE_DATA_BASE_PATH;
 import static org.mockito.ArgumentMatchers.any;
@@ -361,7 +362,7 @@ public class ModularLoadManagerImplTest {
         String brokerServiceUrl = pulsar1.getBrokerServiceUrl();
         String brokerId = pulsar1.getBrokerId();
         log.debug("initial broker service url - {}", topicLookup);
-        Random rand=new Random();
+        Random rand=new SecureRandom();
 
         if (topicLookup.equals(brokerServiceUrl)) {
             int x = rand.nextInt(2);

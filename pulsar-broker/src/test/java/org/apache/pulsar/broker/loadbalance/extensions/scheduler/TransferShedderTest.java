@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.broker.loadbalance.extensions.scheduler;
 
+import java.security.SecureRandom;
 import static org.apache.pulsar.broker.loadbalance.extensions.models.UnloadDecision.Label.Failure;
 import static org.apache.pulsar.broker.loadbalance.extensions.models.UnloadDecision.Label.Skip;
 import static org.apache.pulsar.broker.loadbalance.extensions.models.UnloadDecision.Label.Success;
@@ -190,7 +191,7 @@ public class TransferShedderTest {
         var brokerLoadDataStore = ctx.brokerLoadDataStore();
         var topBundlesLoadDataStore = ctx.topBundleLoadDataStore();
 
-        Random rand = new Random();
+        Random rand = new SecureRandom();
         for (int i = 0; i < clusterSize; i++) {
             int brokerLoad = rand.nextInt(1000);
             brokerLoadDataStore.pushAsync("broker" + i + ":8080", getCpuLoad(ctx,  brokerLoad, "broker" + i + ":8080"));

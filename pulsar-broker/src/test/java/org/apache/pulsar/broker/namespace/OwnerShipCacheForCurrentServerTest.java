@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.broker.namespace;
 
+import java.security.SecureRandom;
 import static org.testng.AssertJUnit.assertTrue;
 import com.google.common.collect.Sets;
 import java.util.Random;
@@ -40,7 +41,7 @@ public class OwnerShipCacheForCurrentServerTest extends OwnerShipForCurrentServe
 
     private static final String TENANT = "ownership";
     private static final String NAMESPACE = TENANT + "/ns1";
-    private static final Random RANDOM = new Random();
+    private static final Random RANDOM = new SecureRandom();
 
     @BeforeMethod
     protected void setup() throws Exception {

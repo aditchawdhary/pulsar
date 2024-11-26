@@ -19,6 +19,7 @@
 package org.apache.pulsar.broker.loadbalance.impl;
 
 import com.google.common.collect.Multimap;
+import java.security.SecureRandom;
 import java.util.Map;
 import java.util.Random;
 import org.apache.pulsar.broker.loadbalance.PlacementStrategy;
@@ -32,7 +33,7 @@ import org.slf4j.LoggerFactory;
  */
 public class WRRPlacementStrategy implements PlacementStrategy {
     private static final Logger log = LoggerFactory.getLogger(WRRPlacementStrategy.class);
-    private final Random rand = new Random();
+    private final Random rand = new SecureRandom();
 
     /**
      * Function : getByWeightedRoundRobin returns ResourceUnit selected by WRR algorithm
