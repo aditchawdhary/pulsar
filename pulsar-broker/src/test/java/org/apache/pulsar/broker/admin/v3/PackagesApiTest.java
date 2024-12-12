@@ -59,7 +59,7 @@ public class PackagesApiTest extends MockedPulsarServiceBaseTest {
     @Test
     public void testRepeatUploadThrowConflictException() throws Exception {
         // create a temp file for testing
-        File file = File.createTempFile("package-api-test", ".package");
+        File file = Files.createTempFile("package-api-test", ".package").toFile();
 
         // testing upload api
         String packageName = "function://public/default/test@v1";
@@ -77,7 +77,7 @@ public class PackagesApiTest extends MockedPulsarServiceBaseTest {
     public void testPackagesOperations() throws Exception {
         // create a temp file for testing
 
-        File file = File.createTempFile("package-api-test", ".package");
+        File file = Files.createTempFile("package-api-test", ".package").toFile();
 
         // testing upload api
         String packageName = "function://public/default/test@v1";

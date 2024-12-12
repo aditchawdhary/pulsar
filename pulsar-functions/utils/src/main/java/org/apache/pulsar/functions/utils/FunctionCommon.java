@@ -251,7 +251,7 @@ public class FunctionCommon {
     }
 
     public static File createPkgTempFile() throws IOException {
-        return File.createTempFile("functions", ".tmp");
+        return Files.createTempFile("functions", ".tmp").toFile();
     }
 
     public static File extractFileFromPkgURL(String destPkgUrl) throws IOException, URISyntaxException {

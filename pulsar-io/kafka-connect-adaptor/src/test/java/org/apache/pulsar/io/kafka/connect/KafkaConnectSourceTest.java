@@ -62,7 +62,7 @@ public class KafkaConnectSourceTest extends ProducerConsumerBase  {
 
         this.offsetTopicName = "persistent://my-property/my-ns/kafka-connect-source-offset";
         this.topicName = "persistent://my-property/my-ns/kafka-connect-source";
-        tempFile = File.createTempFile("some-file-name", null);
+        tempFile = Files.createTempFile("some-file-name", null).toFile();
         tempFile.deleteOnExit();
 
         this.context = mock(SourceContext.class);
