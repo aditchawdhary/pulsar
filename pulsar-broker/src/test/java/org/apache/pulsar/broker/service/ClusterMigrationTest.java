@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.service;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static java.lang.Thread.sleep;
 import static org.apache.pulsar.broker.auth.MockedPulsarServiceBaseTest.retryStrategically;
 import static org.testng.Assert.assertEquals;
@@ -124,23 +126,23 @@ public class ClusterMigrationTest {
         broker4 = new TestBroker("r4", loadManagerClassName);
 
         pulsar1 = broker1.getPulsarService();
-        url1 = new URL(pulsar1.getWebServiceAddress());
-        urlTls1 = new URL(pulsar1.getWebServiceAddressTls());
+        url1 = Urls.create(pulsar1.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
+        urlTls1 = Urls.create(pulsar1.getWebServiceAddressTls(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         admin1 = PulsarAdmin.builder().serviceHttpUrl(url1.toString()).build();
 
         pulsar2 = broker2.getPulsarService();
-        url2 = new URL(pulsar2.getWebServiceAddress());
-        urlTls2 = new URL(pulsar2.getWebServiceAddressTls());
+        url2 = Urls.create(pulsar2.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
+        urlTls2 = Urls.create(pulsar2.getWebServiceAddressTls(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         admin2 = PulsarAdmin.builder().serviceHttpUrl(url2.toString()).build();
 
         pulsar3 = broker3.getPulsarService();
-        url3 = new URL(pulsar3.getWebServiceAddress());
-        urlTls3 = new URL(pulsar3.getWebServiceAddressTls());
+        url3 = Urls.create(pulsar3.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
+        urlTls3 = Urls.create(pulsar3.getWebServiceAddressTls(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         admin3 = PulsarAdmin.builder().serviceHttpUrl(url3.toString()).build();
 
         pulsar4 = broker4.getPulsarService();
-        url4 = new URL(pulsar4.getWebServiceAddress());
-        urlTls4 = new URL(pulsar4.getWebServiceAddressTls());
+        url4 = Urls.create(pulsar4.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
+        urlTls4 = Urls.create(pulsar4.getWebServiceAddressTls(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         admin4 = PulsarAdmin.builder().serviceHttpUrl(url4.toString()).build();
 
 

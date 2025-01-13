@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.admin;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.pulsar.broker.BrokerTestUtil.newUniqueName;
@@ -349,7 +351,7 @@ public class AdminApi2Test extends MockedPulsarServiceBaseTest {
         final int newPartitions = 8;
         final String partitionedTopicName = "persistent://" + defaultNamespace + "/" + topicName;
 
-        URL pulsarUrl = new URL(pulsar.getWebServiceAddress());
+        URL pulsarUrl = Urls.create(pulsar.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 
         admin.topics().createPartitionedTopic(partitionedTopicName, startPartitions);
         // validate partition topic is created
@@ -3169,7 +3171,7 @@ public class AdminApi2Test extends MockedPulsarServiceBaseTest {
         final int newPartitions = 8;
         final String partitionedTopicName = "persistent://" + defaultNamespace + "/" + topicName;
 
-        URL pulsarUrl = new URL(pulsar.getWebServiceAddress());
+        URL pulsarUrl = Urls.create(pulsar.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 
         admin.topics().createPartitionedTopic(partitionedTopicName, startPartitions);
         @Cleanup

@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.admin.v1;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -137,7 +139,7 @@ public class V1_AdminApi2Test extends MockedPulsarServiceBaseTest {
         final int newPartitions = 8;
         final String partitionedTopicName = "persistent://prop-xyz/use/ns1/" + topicName;
 
-        URL pulsarUrl = new URL(pulsar.getWebServiceAddress());
+        URL pulsarUrl = Urls.create(pulsar.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 
         admin.topics().createPartitionedTopic(partitionedTopicName, startPartitions);
         // validate partition topic is created

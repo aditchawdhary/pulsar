@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.client.api.url;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -50,7 +52,7 @@ public class URL {
      */
     public static final java.net.URL createURL(String spec)
             throws MalformedURLException, URISyntaxException, InstantiationException, IllegalAccessException {
-        return new URL(spec).url;
+        return Urls.create(spec, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).url;
     }
 
     public URLConnection openConnection() throws IOException {

@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.client.api;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.pulsar.broker.auth.MockedPulsarServiceBaseTest.retryStrategically;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
@@ -101,7 +103,7 @@ public class ClientDeduplicationFailureTest {
         pulsar.start();
 
         String brokerServiceUrl = pulsar.getWebServiceAddress();
-        url = new URL(brokerServiceUrl);
+        url = Urls.create(brokerServiceUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 
         admin = PulsarAdmin.builder().serviceHttpUrl(brokerServiceUrl).build();
 

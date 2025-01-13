@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.service;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static java.util.Map.entry;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -160,7 +162,7 @@ public class BacklogQuotaManagerTest {
             }, BrokerOpenTelemetryTestUtil.getOpenTelemetrySdkBuilderConsumer(openTelemetryMetricReader));
             pulsar.start();
 
-            adminUrl = new URL("http://127.0.0.1" + ":" + pulsar.getListenPortHTTP().get());
+            adminUrl = Urls.create("http://127.0.0.1" + ":" + pulsar.getListenPortHTTP().get(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             admin = PulsarAdmin.builder().serviceHttpUrl(adminUrl.toString()).build();
             prometheusMetricsClient = new PrometheusMetricsClient("127.0.0.1", pulsar.getListenPortHTTP().get());
 

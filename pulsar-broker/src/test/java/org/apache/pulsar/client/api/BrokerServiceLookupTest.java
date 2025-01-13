@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.client.api;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static io.opentelemetry.sdk.testing.assertj.OpenTelemetryAssertions.assertThat;
 import static org.apache.pulsar.broker.namespace.NamespaceService.LOOKUP_REQUEST_DURATION_METRIC_NAME;
 import static org.mockito.ArgumentMatchers.any;
@@ -584,7 +586,7 @@ public class BrokerServiceLookupTest extends ProducerConsumerBase {
         HttpsURLConnection.setDefaultSSLSocketFactory(sslCtx.getSocketFactory());
 
         // hit broker2 url
-        URLConnection con = new URL(pulsar2.getWebServiceAddressTls() + lookupResourceUrl).openConnection();
+        URLConnection con = Urls.create(pulsar2.getWebServiceAddressTls() + lookupResourceUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openConnection();
         log.info("orignal url: {}", con.getURL());
         con.connect();
         log.info("connected url: {} ", con.getURL());
@@ -1090,7 +1092,7 @@ public class BrokerServiceLookupTest extends ProducerConsumerBase {
         final CompletableFuture<PartitionedTopicMetadata> future = new CompletableFuture<>();
         try {
 
-            String requestUrl = new URL(url, path).toString();
+            String requestUrl = Urls.create(url, path, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).toString();
             BoundRequestBuilder builder = httpClient.prepareGet(requestUrl);
 
             final ListenableFuture<Response> responseFuture = builder.setHeader("Accept", "application/json")

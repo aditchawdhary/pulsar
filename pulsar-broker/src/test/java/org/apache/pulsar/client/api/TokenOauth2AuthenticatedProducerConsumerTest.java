@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.client.api;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.mockito.Mockito.spy;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
@@ -125,7 +127,7 @@ public class TokenOauth2AuthenticatedProducerConsumerTest extends ProducerConsum
 
     private Authentication createAuthentication(Path path) throws MalformedURLException {
         return AuthenticationFactoryOAuth2.clientCredentials(
-                new URL(server.getIssuer()),
+                Urls.create(server.getIssuer(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS),
                 path.toUri().toURL(),  // key file path
                 audience
         );

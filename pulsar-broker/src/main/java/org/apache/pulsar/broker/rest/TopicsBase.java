@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.rest;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import com.fasterxml.jackson.databind.ObjectReader;
 import io.netty.buffer.ByteBuf;
@@ -385,7 +387,7 @@ public class TopicsBase extends PersistentTopicsBase {
                         log.debug("Redirect rest produce request for topic {} from {} to {}.",
                                 topicName, pulsar().getWebServiceAddress(), redirectAddresses.get(0));
                     }
-                    URL redirectAddress = new URL(redirectAddresses.get(0));
+                    URL redirectAddress = Urls.create(redirectAddresses.get(0), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                     URI redirectURI = UriBuilder.fromUri(uri.getRequestUri())
                             .host(redirectAddress.getHost())
                             .port(redirectAddress.getPort())

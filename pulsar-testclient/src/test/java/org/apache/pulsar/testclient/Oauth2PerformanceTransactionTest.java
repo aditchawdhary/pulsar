@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.testclient;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.mockito.Mockito.spy;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Sets;
@@ -160,7 +162,7 @@ public class Oauth2PerformanceTransactionTest extends ProducerConsumerBase {
         String testProduceTopic = testTopic + UUID.randomUUID();
         String testSub = "testSub";
         String args = String.format(argString, testConsumeTopic, testProduceTopic,
-                pulsar.getBrokerServiceUrl(), testSub, new URL(pulsar.getWebServiceAddress()),
+                pulsar.getBrokerServiceUrl(), testSub, Urls.create(pulsar.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS),
                 authenticationPlugin, authenticationParameters);
 
         Producer<byte[]> produceToConsumeTopic = pulsarClient.newProducer(Schema.BYTES)

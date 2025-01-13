@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.loadbalance.impl;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static java.lang.Thread.sleep;
 import static org.apache.pulsar.broker.resources.LoadBalanceResources.BROKER_TIME_AVERAGE_BASE_PATH;
 import static org.apache.pulsar.broker.resources.LoadBalanceResources.BUNDLE_DATA_BASE_PATH;
@@ -182,7 +184,7 @@ public class ModularLoadManagerImplTest {
         pulsar1.start();
 
         primaryBrokerId = pulsar1.getBrokerId();
-        url1 = new URL(pulsar1.getWebServiceAddress());
+        url1 = Urls.create(pulsar1.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         admin1 = PulsarAdmin.builder().serviceHttpUrl(url1.toString()).build();
 
         // Start broker 2
@@ -216,7 +218,7 @@ public class ModularLoadManagerImplTest {
         pulsar3 = new PulsarService(config);
 
         secondaryBrokerId = pulsar2.getBrokerId();
-        url2 = new URL(pulsar2.getWebServiceAddress());
+        url2 = Urls.create(pulsar2.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         admin2 = PulsarAdmin.builder().serviceHttpUrl(url2.toString()).build();
 
         primaryLoadManager = (ModularLoadManagerImpl) getField(pulsar1.getLoadManager().get(), "loadManager");
