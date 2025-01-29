@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.structuredeventlog.slf4j;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -399,13 +400,13 @@ public class StructuredEventLogTest {
         List<Map<String, Object>> logged = new ArrayList<>();
         ObjectMapper o = new ObjectMapper();
         try (BufferedReader r = new BufferedReader(new StringReader(writer.toString()))) {
-            String line = r.readLine();
+            String line = BoundedLineReader.readLine(r, 5_000_000);
             while (line != null) {
                 Map<String, Object> log = o.readValue(line, Map.class);
                 if (log.get("loggerName").toString().startsWith("stevlog")) {
                     logged.add(log);
                 }
-                line = r.readLine();
+                line = BoundedLineReader.readLine(r, 5_000_000);
             }
         }
         return logged;
