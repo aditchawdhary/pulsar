@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.compaction;
 
+import java.security.SecureRandom;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
@@ -1816,7 +1817,7 @@ public class CompactionTest extends MockedPulsarServiceBaseTest {
         Optional<Topic> topic = pulsar.getBrokerService().getTopic(dest.toString(), true).join();
         Assert.assertTrue(topic.isPresent());
         PersistentTopic persistentTopic = (PersistentTopic) topic.get();
-        Random random = new Random();
+        Random random = new SecureRandom();
         for (int i = 0; i < 100; i++) {
             int rad = random.nextInt(3);
             ByteBuf marker;

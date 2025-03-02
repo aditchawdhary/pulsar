@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.compaction;
 
+import java.security.SecureRandom;
 import static org.apache.pulsar.broker.loadbalance.extensions.channel.ServiceUnitState.Deleted;
 import static org.apache.pulsar.broker.loadbalance.extensions.channel.ServiceUnitState.Init;
 import static org.apache.pulsar.broker.loadbalance.extensions.channel.ServiceUnitState.Owned;
@@ -98,7 +99,7 @@ public class ServiceUnitStateCompactionTest extends MockedPulsarServiceBaseTest 
 
     private ServiceUnitStateData testData = null;
 
-    private static Random RANDOM = new Random();
+    private static Random RANDOM = new SecureRandom();
 
 
     private ServiceUnitStateData testValue(ServiceUnitState state, String broker) {

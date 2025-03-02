@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.testclient;
 
+import java.security.SecureRandom;
 import static org.apache.pulsar.broker.resources.LoadBalanceResources.BUNDLE_DATA_BASE_PATH;
 import static org.apache.pulsar.broker.resources.LoadBalanceResources.RESOURCE_QUOTA_BASE_PATH;
 import java.io.BufferedReader;
@@ -691,7 +692,7 @@ public class LoadSimulationController extends CmdBase{
      */
     @Override
     public void run() throws Exception {
-        random = new Random();
+        random = new SecureRandom();
         clients = this.clientHostNames.split(",");
         final Socket[] sockets = new Socket[clients.length];
         inputStreams = new DataInputStream[clients.length];

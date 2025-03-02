@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.client.impl;
 
+import java.security.SecureRandom;
 import static org.apache.pulsar.client.util.MathUtils.signSafeMod;
 import static org.apache.pulsar.common.util.netty.ChannelFutures.toCompletableFuture;
 import com.google.common.annotations.VisibleForTesting;
@@ -194,7 +195,7 @@ public class ConnectionPool implements AutoCloseable {
         return new DnsAddressResolverGroup(dnsNameResolverBuilder).getResolver(eventLoopGroup.next());
     }
 
-    private static final Random random = new Random();
+    private static final Random random = new SecureRandom();
 
     public int genRandomKeyToSelectCon() {
         if (maxConnectionsPerHosts == 0) {

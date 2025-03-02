@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.client.impl;
 
+import java.security.SecureRandom;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
@@ -715,7 +716,7 @@ public class MessageChunkingTest extends ProducerConsumerBase {
 
     private String createMessagePayload(int size) {
         StringBuilder str = new StringBuilder();
-        Random rand = new Random();
+        Random rand = new SecureRandom();
         for (int i = 0; i < size; i++) {
             str.append(rand.nextInt(10));
         }

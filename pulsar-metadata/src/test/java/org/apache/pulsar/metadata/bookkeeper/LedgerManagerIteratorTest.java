@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.metadata.bookkeeper;
 
+import java.security.SecureRandom;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
@@ -390,7 +391,7 @@ public class LedgerManagerIteratorTest extends BaseMetadataStoreTest {
         final boolean longRange = true;
 
         final Set<Long> mustExist = new TreeSet<>();
-        Random rng = new Random();
+        Random rng = new SecureRandom();
         for (int i = 0; i < numLedgers; ++i) {
             long lid = Math.abs(rng.nextLong());
             if (!longRange) {

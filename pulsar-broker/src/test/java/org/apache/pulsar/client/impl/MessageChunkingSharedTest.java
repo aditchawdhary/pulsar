@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.client.impl;
 
+import java.security.SecureRandom;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
@@ -205,7 +206,7 @@ public class MessageChunkingSharedTest extends ProducerConsumerBase {
     private static String createChunkedMessage(int numChunks) {
         assert numChunks >= 1;
         final byte[] payload = new byte[(numChunks - 1) * MAX_MESSAGE_SIZE + MAX_MESSAGE_SIZE / 10];
-        final Random random = new Random();
+        final Random random = new SecureRandom();
         for (int i = 0; i < payload.length; i++) {
             payload[i] = (byte) ('a' + random.nextInt(26));
         }

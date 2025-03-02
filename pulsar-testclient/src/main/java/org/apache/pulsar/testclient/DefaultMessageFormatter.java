@@ -19,11 +19,12 @@
 package org.apache.pulsar.testclient;
 
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.util.Random;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class DefaultMessageFormatter implements IMessageFormatter {
-    private final Random r  = new Random();
+    private final Random r  = new SecureRandom();
 
 
     @Override

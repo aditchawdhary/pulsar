@@ -18,6 +18,7 @@
  */
 package org.apache.bookkeeper.mledger.impl;
 
+import java.security.SecureRandom;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -185,7 +186,7 @@ public class EntryCacheManagerTest extends MockedBookKeeperTestCase {
         assertEquals(210, cacheManager.getSize());
 
         // Consume some entries.
-        Random random = new Random();
+        Random random = new SecureRandom();
         for (int i = 0; i < 20; i++) {
             if (random.nextBoolean()) {
                 (entries.get(i).getDataBuffer()).readBytes(new byte[entries.get(i).getDataBuffer().readableBytes()]);

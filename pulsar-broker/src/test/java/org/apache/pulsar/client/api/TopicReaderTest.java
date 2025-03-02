@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.client.api;
 
+import java.security.SecureRandom;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNull;
@@ -1414,7 +1415,7 @@ public class TopicReaderTest extends ProducerConsumerBase {
     public void testReaderStartMessageIdAtExpectedPos(boolean batching, boolean startInclusive, int numOfMessages)
             throws Exception {
         final String topicName = "persistent://my-property/my-ns/ReaderStartMessageIdAtExpectedPos";
-        final int resetIndex = new Random().nextInt(numOfMessages); // Choose some random index to reset
+        final int resetIndex = new SecureRandom().nextInt(numOfMessages); // Choose some random index to reset
         final int firstMessage = startInclusive ? resetIndex : resetIndex + 1; // First message of reset
 
         Producer<byte[]> producer = pulsarClient.newProducer()

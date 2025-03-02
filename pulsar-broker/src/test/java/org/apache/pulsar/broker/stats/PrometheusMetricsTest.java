@@ -19,6 +19,7 @@
 package org.apache.pulsar.broker.stats;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import java.security.SecureRandom;
 import static org.apache.pulsar.broker.stats.prometheus.PrometheusMetricsClient.Metric;
 import static org.apache.pulsar.broker.stats.prometheus.PrometheusMetricsClient.parseMetrics;
 import static org.mockito.Mockito.mock;
@@ -573,7 +574,7 @@ public class PrometheusMetricsTest extends BrokerTestBase {
                 .subscriptionName("test")
                 .subscribe();
         byte[] msg = new byte[2 * 1024 * 1024];
-        new Random().nextBytes(msg);
+        new SecureRandom().nextBytes(msg);
         producer.send(msg);
         consumer.receive();
         // when cacheEnable, the second msg will read cache miss
