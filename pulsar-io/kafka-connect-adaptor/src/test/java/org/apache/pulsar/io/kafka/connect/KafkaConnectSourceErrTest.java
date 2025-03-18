@@ -73,7 +73,7 @@ public class KafkaConnectSourceErrTest extends ProducerConsumerBase  {
 
         this.topicName = "persistent://my-property/my-ns/kafka-connect-source";
         config.put(FileStreamSourceConnector.TOPIC_CONFIG, topicName);
-        tempFile = File.createTempFile("some-file-name", null);
+        tempFile = Files.createTempFile("some-file-name", null).toFile();
         config.put(FileStreamSourceConnector.FILE_CONFIG, tempFile.getAbsoluteFile().toString());
         config.put(FileStreamSourceConnector.TASK_BATCH_SIZE_CONFIG, String.valueOf(FileStreamSourceConnector.DEFAULT_TASK_BATCH_SIZE));
 

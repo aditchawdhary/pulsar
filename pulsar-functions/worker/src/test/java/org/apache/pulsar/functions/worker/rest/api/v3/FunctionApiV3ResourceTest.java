@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.functions.worker.rest.api.v3;
 
+import java.nio.file.Files;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -91,7 +92,7 @@ public class FunctionApiV3ResourceTest extends AbstractFunctionApiResourceTest {
 
     protected File downloadFunction(final String path, final AuthenticationParameters authParams) throws IOException {
         StreamingOutput streamingOutput = resource.downloadFunction(path, authParams);
-        File pkgFile = File.createTempFile("testpkg", "nar");
+        File pkgFile = Files.createTempFile("testpkg", "nar").toFile();
         try(OutputStream output = new FileOutputStream(pkgFile)) {
             streamingOutput.write(output);
         }
@@ -179,7 +180,7 @@ public class FunctionApiV3ResourceTest extends AbstractFunctionApiResourceTest {
 
         StreamingOutput streamOutput = downloadFunction(tenant, namespace, function,
                 AuthenticationParameters.builder().build(), false);
-        File pkgFile = File.createTempFile("testpkg", "nar");
+        File pkgFile = Files.createTempFile("testpkg", "nar").toFile();
         OutputStream output = new FileOutputStream(pkgFile);
         streamOutput.write(output);
         Assert.assertTrue(pkgFile.exists());
@@ -209,7 +210,7 @@ public class FunctionApiV3ResourceTest extends AbstractFunctionApiResourceTest {
 
         StreamingOutput streamOutput = downloadFunction(tenant, namespace, function,
                 AuthenticationParameters.builder().build(), false);
-        File pkgFile = File.createTempFile("testpkg", "nar");
+        File pkgFile = Files.createTempFile("testpkg", "nar").toFile();
         OutputStream output = new FileOutputStream(pkgFile);
         streamOutput.write(output);
         Assert.assertTrue(pkgFile.exists());
@@ -238,7 +239,7 @@ public class FunctionApiV3ResourceTest extends AbstractFunctionApiResourceTest {
 
         StreamingOutput streamOutput = downloadFunction(tenant, namespace, function,
                 AuthenticationParameters.builder().build(), true);
-        File pkgFile = File.createTempFile("testpkg", "nar");
+        File pkgFile = Files.createTempFile("testpkg", "nar").toFile();
         OutputStream output = new FileOutputStream(pkgFile);
         streamOutput.write(output);
         Assert.assertTrue(pkgFile.exists());

@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.client.impl.auth;
 
+import java.nio.file.Files;
 import java.util.Map;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -106,7 +107,7 @@ public class AuthenticationTokenTest {
 
     @Test
     public void testAuthTokenConfigFromFile() throws Exception {
-        File tokenFile = File.createTempFile("pulsar-test-token", ".key");
+        File tokenFile = Files.createTempFile("pulsar-test-token", ".key").toFile();
         tokenFile.deleteOnExit();
         FileUtils.write(tokenFile, "my-test-token-string", StandardCharsets.UTF_8);
 
@@ -134,7 +135,7 @@ public class AuthenticationTokenTest {
      */
     @Test
     public void testAuthTokenConfigFromFileWithNewline() throws Exception {
-        File tokenFile = File.createTempFile("pulsar-test-token", ".key");
+        File tokenFile = Files.createTempFile("pulsar-test-token", ".key").toFile();
         tokenFile.deleteOnExit();
         FileUtils.write(tokenFile, "  my-test-token-string  \r\n", StandardCharsets.UTF_8);
 

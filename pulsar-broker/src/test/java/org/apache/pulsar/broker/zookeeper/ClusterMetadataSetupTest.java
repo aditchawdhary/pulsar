@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.broker.zookeeper;
 
+import java.nio.file.Files;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
@@ -467,7 +468,7 @@ public class ClusterMetadataSetupTest {
         public ZookeeperServerTest(int zkPort) throws IOException {
             this.zkPort = zkPort;
             this.hostPort = "127.0.0.1:" + zkPort;
-            this.zkTmpDir = File.createTempFile("zookeeper", "test");
+            this.zkTmpDir = Files.createTempFile("zookeeper", "test").toFile();
             log.info("**** Start GZK on {} ****", zkTmpDir);
             if (!zkTmpDir.delete() || !zkTmpDir.mkdir()) {
                 throw new IOException("Couldn't create zk directory " + zkTmpDir);

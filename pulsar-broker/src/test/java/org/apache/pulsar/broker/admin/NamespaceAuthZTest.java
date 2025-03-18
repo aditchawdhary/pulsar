@@ -19,6 +19,7 @@
 
 package org.apache.pulsar.broker.admin;
 
+import java.nio.file.Files;
 import static org.apache.pulsar.broker.auth.MockedPulsarServiceBaseTest.deleteNamespaceWithRetry;
 import static org.apache.pulsar.common.policies.data.SchemaAutoUpdateCompatibilityStrategy.AutoUpdateDisabled;
 import static org.testng.Assert.assertEquals;
@@ -901,7 +902,7 @@ public class NamespaceAuthZTest extends MockedPulsarStandalone {
                 .build();
 
 
-        File file = File.createTempFile("package-api-test", ".package");
+        File file = Files.createTempFile("package-api-test", ".package").toFile();
 
         // testing upload api
         String packageName = "function://public/default/test@v1";
@@ -943,7 +944,7 @@ public class NamespaceAuthZTest extends MockedPulsarStandalone {
 
         // ---- test tenant manager ---
 
-        file = File.createTempFile("package-api-test", ".package");
+        file = Files.createTempFile("package-api-test", ".package").toFile();
 
         // test tenant manager
         packageName = "function://public/default/test@v2";
@@ -977,7 +978,7 @@ public class NamespaceAuthZTest extends MockedPulsarStandalone {
         // ---- test nobody ---
         AtomicBoolean execFlag = setAuthorizationOperationChecker(subject, NamespaceOperation.PACKAGES);
 
-        File file3 = File.createTempFile("package-api-test", ".package");
+        File file3 = Files.createTempFile("package-api-test", ".package").toFile();
 
         // test tenant manager
         String packageName3 = "function://public/default/test@v3";
@@ -1013,7 +1014,7 @@ public class NamespaceAuthZTest extends MockedPulsarStandalone {
 
         for (AuthAction action : AuthAction.values()) {
             superUserAdmin.namespaces().grantPermissionOnNamespace(namespace, subject, Set.of(action));
-            File file4 = File.createTempFile("package-api-test", ".package");
+            File file4 = Files.createTempFile("package-api-test", ".package").toFile();
             String packageName4 = "function://public/default/test@v4";
             PackageMetadata originalMetadata4 = PackageMetadata.builder().description("test").build();
             String downloadPath4 = new File(file3.getParentFile(), "package-api-test-download.package").getPath();

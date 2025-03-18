@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.proxy.server;
 
+import java.nio.file.Files;
 import static org.mockito.Mockito.doReturn;
 
 import java.io.File;
@@ -48,7 +49,7 @@ public class ProxyTlsWithAuthTest extends MockedPulsarServiceBaseTest {
         String clientSecret = "super-secret-client-secret";
         server = new MockOIDCIdentityProvider(clientSecret, "an-audience", 3000);
 
-        File tempFile = File.createTempFile("oauth2", ".tmp");
+        File tempFile = Files.createTempFile("oauth2", ".tmp").toFile();
         tempFile.deleteOnExit();
         FileWriter writer = new FileWriter(tempFile);
         writer.write("{\n" +

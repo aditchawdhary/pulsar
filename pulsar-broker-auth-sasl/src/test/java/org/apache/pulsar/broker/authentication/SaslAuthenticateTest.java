@@ -183,7 +183,7 @@ public class SaslAuthenticateTest extends ProducerConsumerBase {
         conf.setAuthenticationEnabled(true);
         conf.setSaslJaasClientAllowedIds(".*" + "client" + ".*");
         conf.setSaslJaasServerSectionName("PulsarBroker");
-        secretKeyFile = File.createTempFile("saslRoleTokenSignerSecret", ".key");
+        secretKeyFile = Files.createTempFile("saslRoleTokenSignerSecret", ".key").toFile();
         Files.write(Paths.get(secretKeyFile.toString()), "PulsarSecret".getBytes());
         conf.setSaslJaasServerRoleTokenSignerSecretPath(secretKeyFile.toString());
         Set<String> providers = new HashSet<>();

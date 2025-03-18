@@ -22,6 +22,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.file.Files;
 import org.apache.zookeeper.server.NIOServerCnxnFactory;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.slf4j.Logger;
@@ -42,7 +43,7 @@ public class ZookeeperServerTest implements Closeable {
     }
 
     public ZookeeperServerTest(int zkPort) throws IOException {
-        this.zkTmpDir = File.createTempFile("zookeeper", "test");
+        this.zkTmpDir = Files.createTempFile("zookeeper", "test").toFile();
         log.info("**** Start GZK on {} ****", zkTmpDir);
         if (!zkTmpDir.delete() || !zkTmpDir.mkdir()) {
             throw new IOException("Couldn't create zk directory " + zkTmpDir);

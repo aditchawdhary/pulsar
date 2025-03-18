@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.functions.worker.rest.api.v2;
 
+import java.nio.file.Files;
 import static org.apache.pulsar.functions.utils.FunctionCommon.mergeJson;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.spy;
@@ -82,7 +83,7 @@ public class FunctionApiV2ResourceTest extends AbstractFunctionApiResourceTest {
             throws IOException {
         Response response = resource.downloadFunction(path, authParams);
         StreamingOutput streamingOutput = readEntity(response, StreamingOutput.class);
-        File pkgFile = File.createTempFile("testpkg", "nar");
+        File pkgFile = Files.createTempFile("testpkg", "nar").toFile();
         try (OutputStream output = new FileOutputStream(pkgFile)) {
             streamingOutput.write(output);
         }
