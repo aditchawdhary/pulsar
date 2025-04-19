@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.service;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.pulsar.compaction.Compactor.COMPACTION_SUBSCRIPTION;
 import com.google.common.collect.Sets;
 import java.net.URL;
@@ -91,8 +93,8 @@ public abstract class OneWayReplicatorTestBase extends TestRetrySupport {
         pulsar1.start();
         ns1 = pulsar1.getBrokerService();
 
-        url1 = new URL(pulsar1.getWebServiceAddress());
-        urlTls1 = new URL(pulsar1.getWebServiceAddressTls());
+        url1 = Urls.create(pulsar1.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
+        urlTls1 = Urls.create(pulsar1.getWebServiceAddressTls(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         admin1 = PulsarAdmin.builder().serviceHttpUrl(url1.toString()).build();
         client1 = PulsarClient.builder().serviceUrl(url1.toString()).build();
 
@@ -102,8 +104,8 @@ public abstract class OneWayReplicatorTestBase extends TestRetrySupport {
         pulsar2.start();
         ns2 = pulsar2.getBrokerService();
 
-        url2 = new URL(pulsar2.getWebServiceAddress());
-        urlTls2 = new URL(pulsar2.getWebServiceAddressTls());
+        url2 = Urls.create(pulsar2.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
+        urlTls2 = Urls.create(pulsar2.getWebServiceAddressTls(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         admin2 = PulsarAdmin.builder().serviceHttpUrl(url2.toString()).build();
         client2 = PulsarClient.builder().serviceUrl(url2.toString()).build();
     }

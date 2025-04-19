@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.functions.worker;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.nio.charset.StandardCharsets;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +45,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class TestPulsarFunctionUtils {
     public static String getPrometheusMetrics(int metricsPort) throws IOException {
         StringBuilder result = new StringBuilder();
-        URL url = new URL(String.format("http://%s:%s/metrics", "localhost", metricsPort));
+        URL url = Urls.create(String.format("http://%s:%s/metrics", "localhost", metricsPort), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));

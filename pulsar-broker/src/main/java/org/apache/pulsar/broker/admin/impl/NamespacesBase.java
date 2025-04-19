@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.admin.impl;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.pulsar.common.policies.data.PoliciesUtil.defaultBundle;
 import static org.apache.pulsar.common.policies.data.PoliciesUtil.getBundles;
@@ -434,9 +436,9 @@ public abstract class NamespacesBase extends AdminResource {
                                             URL replClusterUrl;
                                             try {
                                                 if (!config().isTlsEnabled() || !isRequestHttps()) {
-                                                    replClusterUrl = new URL(replClusterData.getServiceUrl());
+                                                    replClusterUrl = Urls.create(replClusterData.getServiceUrl(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                                                 } else if (StringUtils.isNotBlank(replClusterData.getServiceUrlTls())) {
-                                                    replClusterUrl = new URL(replClusterData.getServiceUrlTls());
+                                                    replClusterUrl = Urls.create(replClusterData.getServiceUrlTls(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                                                 } else {
                                                     throw new RestException(Status.PRECONDITION_FAILED,
                                                     "The replication cluster does not provide TLS encrypted service");
@@ -521,9 +523,9 @@ public abstract class NamespacesBase extends AdminResource {
                                         URL replClusterUrl;
                                         try {
                                             if (!config().isTlsEnabled() || !isRequestHttps()) {
-                                                replClusterUrl = new URL(replClusterData.getServiceUrl());
+                                                replClusterUrl = Urls.create(replClusterData.getServiceUrl(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                                             } else if (StringUtils.isNotBlank(replClusterData.getServiceUrlTls())) {
-                                                replClusterUrl = new URL(replClusterData.getServiceUrlTls());
+                                                replClusterUrl = Urls.create(replClusterData.getServiceUrlTls(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                                             } else {
                                                 throw new RestException(Status.PRECONDITION_FAILED,
                                                         "The replication cluster does not provide TLS encrypted "
@@ -948,7 +950,7 @@ public abstract class NamespacesBase extends AdminResource {
                     }
 
                     try {
-                        URL url = new URL(redirectUrl);
+                        URL url = Urls.create(redirectUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                         URI redirect = UriBuilder.fromUri(uri.getRequestUri()).host(url.getHost())
                                 .port(url.getPort())
                                 .replaceQueryParam("authoritative",

@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.functions.utils;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import com.google.protobuf.AbstractMessage.Builder;
 import com.google.protobuf.MessageOrBuilder;
@@ -235,7 +237,7 @@ public class FunctionCommon {
     }
 
     public static void downloadFromHttpUrl(String destPkgUrl, File targetFile) throws IOException {
-        final URL url = new URL(destPkgUrl);
+        final URL url = Urls.create(destPkgUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         final URLConnection connection = url.openConnection();
         if (StringUtils.isNotEmpty(url.getUserInfo())) {
             final AuthenticationDataBasic authBasic = new AuthenticationDataBasic(url.getUserInfo());
@@ -256,7 +258,7 @@ public class FunctionCommon {
 
     public static File extractFileFromPkgURL(String destPkgUrl) throws IOException, URISyntaxException {
         if (destPkgUrl.startsWith(Utils.FILE)) {
-            URL url = new URL(destPkgUrl);
+            URL url = Urls.create(destPkgUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             File file = new File(url.toURI());
             if (!file.exists()) {
                 throw new IOException(destPkgUrl + " does not exists locally");

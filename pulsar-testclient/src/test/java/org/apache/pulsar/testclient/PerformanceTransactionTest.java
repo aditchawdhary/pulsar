@@ -19,6 +19,8 @@
 package org.apache.pulsar.testclient;
 
 import com.google.common.collect.Sets;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.URL;
 import java.util.concurrent.CountDownLatch;
 import lombok.Cleanup;
@@ -99,7 +101,7 @@ public class PerformanceTransactionTest extends MockedPulsarServiceBaseTest {
         String testSub = "testSub";
         admin.topics().createPartitionedTopic(testConsumeTopic, 1);
         String args = String.format(argString, testConsumeTopic, testProduceTopic,
-                pulsar.getBrokerServiceUrl(), testSub, new URL(pulsar.getWebServiceAddress()));
+                pulsar.getBrokerServiceUrl(), testSub, Urls.create(pulsar.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
 
         @Cleanup
         PulsarClient pulsarClient = PulsarClient.builder()

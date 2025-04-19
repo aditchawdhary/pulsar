@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.functions.worker.rest.api;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -365,7 +367,7 @@ public abstract class ComponentImpl implements Component<PulsarWorkerService> {
             } else if (functionMetaData.getPackageLocation().getPackagePath().startsWith(Utils.HTTP)
                     || functionMetaData.getPackageLocation().getPackagePath().startsWith(Utils.FILE)) {
                 String fileName =
-                        new File(new URL(functionMetaData.getPackageLocation().getPackagePath()).toURI()).getName();
+                        new File(Urls.create(functionMetaData.getPackageLocation().getPackagePath(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).toURI()).getName();
                 packageLocationMetaDataBuilder.setOriginalFileName(fileName);
                 if (isPackageManagementEnabled) {
                     packageLocationMetaDataBuilder.setPackagePath(packageName.toString());

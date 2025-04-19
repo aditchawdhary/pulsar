@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.io;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.mockito.Mockito.spy;
 
@@ -126,7 +128,7 @@ public class PulsarFunctionAdminTest {
         Optional<WorkerService> functionWorkerService = Optional.of(functionsWorkerService);
         pulsar = new PulsarService(config, workerConfig, functionWorkerService, (exitCode) -> {});
         pulsar.start();
-        urlTls = new URL(pulsar.getBrokerServiceUrlTls());
+        urlTls = Urls.create(pulsar.getBrokerServiceUrlTls(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 
         Map<String, String> authParams = new HashMap<>();
         authParams.put("tlsCertFile", TLS_CLIENT_CERT_FILE_PATH);

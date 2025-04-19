@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.common.policies.impl;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotEquals;
@@ -108,12 +110,12 @@ public class NamespaceIsolationPolicyImplTest {
         List<URL> brokers = new ArrayList<URL>();
         for (int i = 0; i < 10; i++) {
             String broker = String.format("prod1-broker%d.messaging.use.example.com", i);
-            brokers.add(new URL(String.format("http://%s:8080", broker)));
+            brokers.add(Urls.create(String.format("http://%s:8080", broker), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
         }
         List<URL> otherBrokers = new ArrayList<URL>();
         for (int i = 0; i < 10; i++) {
             String broker = String.format("prod1-broker%d.messaging.usw.example.com", i);
-            brokers.add(new URL(String.format("http://%s:8080", broker)));
+            brokers.add(Urls.create(String.format("http://%s:8080", broker), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
         }
         List<URL> primaryBrokers = defaultPolicy.findPrimaryBrokers(brokers, NamespaceName.get("pulsar/use/testns-1"));
         assertEquals(primaryBrokers.size(), 3);

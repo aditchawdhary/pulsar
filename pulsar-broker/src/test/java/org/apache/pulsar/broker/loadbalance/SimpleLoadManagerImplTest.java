@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.loadbalance;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.pulsar.broker.BrokerTestUtil.spyWithClassAndConstructorArgsRecordingInvocations;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
@@ -130,7 +132,7 @@ public class SimpleLoadManagerImplTest {
         pulsar1 = new PulsarService(config1);
         pulsar1.start();
 
-        url1 = new URL(pulsar1.getWebServiceAddress());
+        url1 = Urls.create(pulsar1.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         admin1 = PulsarAdmin.builder().serviceHttpUrl(url1.toString()).build();
         brokerStatsClient1 = admin1.brokerStats();
         primaryHost = pulsar1.getWebServiceAddress();
@@ -152,7 +154,7 @@ public class SimpleLoadManagerImplTest {
         pulsar2 = new PulsarService(config2);
         pulsar2.start();
 
-        url2 = new URL(pulsar2.getWebServiceAddress());
+        url2 = Urls.create(pulsar2.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         admin2 = PulsarAdmin.builder().serviceHttpUrl(url2.toString()).build();
         brokerStatsClient2 = admin2.brokerStats();
         secondaryHost = pulsar2.getWebServiceAddress();
