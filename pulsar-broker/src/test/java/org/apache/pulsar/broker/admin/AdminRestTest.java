@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.broker.admin;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -95,7 +96,7 @@ public class AdminRestTest extends MockedPulsarServiceBaseTest {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
         StringBuilder stringBuilder = new StringBuilder();
         String line = null;
-        while ((line = bufferedReader.readLine()) != null){
+        while ((line = BoundedLineReader.readLine(bufferedReader, 5_000_000)) != null){
             stringBuilder.append(line);
         }
         return stringBuilder.toString();

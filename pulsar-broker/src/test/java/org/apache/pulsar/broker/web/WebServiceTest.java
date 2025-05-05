@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.broker.web;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.apache.pulsar.broker.stats.prometheus.PrometheusMetricsClient.Metric;
 import static org.apache.pulsar.broker.stats.prometheus.PrometheusMetricsClient.parseMetrics;
 import static org.testng.Assert.assertEquals;
@@ -411,7 +412,7 @@ public class WebServiceTest {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
-            while ((line = reader.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                 content.append(line + "\n");
             }
         } finally {

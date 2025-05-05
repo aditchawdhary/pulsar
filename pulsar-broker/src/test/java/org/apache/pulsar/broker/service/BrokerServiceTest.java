@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.broker.service;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.apache.pulsar.common.naming.SystemTopicNames.TRANSACTION_COORDINATOR_ASSIGN;
 import static org.apache.pulsar.common.naming.SystemTopicNames.TRANSACTION_COORDINATOR_LOG;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -1491,7 +1492,7 @@ public class BrokerServiceTest extends BrokerTestBase {
         BufferedReader reader = new BufferedReader(isReader);
         StringBuffer sb = new StringBuffer();
         String str;
-        while((str = reader.readLine()) != null){
+        while((str = BoundedLineReader.readLine(reader, 5_000_000)) != null){
             sb.append(str);
         }
         Assert.assertTrue(sb.toString().contains("test_metrics"));
