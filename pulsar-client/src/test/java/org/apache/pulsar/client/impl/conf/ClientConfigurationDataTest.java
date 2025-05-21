@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.client.impl.conf;
 
+import io.github.pixee.security.ObjectInputFilters;
 import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,6 +70,7 @@ public class ClientConfigurationDataTest {
         ByteArrayInputStream bis = new ByteArrayInputStream(serialized);
         @Cleanup
         ObjectInputStream ois = new ObjectInputStream(bis);
+        ObjectInputFilters.enableObjectFilterIfUnprotected(ois);
         Object object = ois.readObject();
 
         Assert.assertEquals(object.getClass(), ClientConfigurationData.class);
