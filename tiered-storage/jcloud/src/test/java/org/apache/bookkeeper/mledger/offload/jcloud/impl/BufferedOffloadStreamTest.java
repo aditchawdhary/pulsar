@@ -18,6 +18,7 @@
  */
 package org.apache.bookkeeper.mledger.offload.jcloud.impl;
 
+import java.security.SecureRandom;
 import static org.testng.Assert.assertEquals;
 import com.google.common.io.ByteStreams;
 import com.google.common.primitives.Ints;
@@ -40,7 +41,7 @@ import org.testng.annotations.Test;
 import org.testng.Assert;
 
 public class BufferedOffloadStreamTest {
-    final Random random = new Random();
+    final Random random = new SecureRandom();
 
     private void testWithPadding(int paddingLen) throws Exception {
         int blockSize = StreamingDataBlockHeaderImpl.getDataStartOffset();

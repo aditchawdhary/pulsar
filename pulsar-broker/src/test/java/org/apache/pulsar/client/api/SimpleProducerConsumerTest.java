@@ -19,6 +19,7 @@
 package org.apache.pulsar.client.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import java.security.SecureRandom;
 import static org.apache.pulsar.common.naming.TopicName.PARTITIONED_TOPIC_SUFFIX;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.any;
@@ -3835,7 +3836,7 @@ public class SimpleProducerConsumerTest extends ProducerConsumerBase {
     public void testConsumerStartMessageIdAtExpectedPos(boolean batching, boolean startInclusive, int numOfMessages)
             throws Exception {
         final String topicName = "persistent://my-property/my-ns/ConsumerStartMessageIdAtExpectedPos";
-        final int resetIndex = new Random().nextInt(numOfMessages); // Choose some random index to reset
+        final int resetIndex = new SecureRandom().nextInt(numOfMessages); // Choose some random index to reset
         final int firstMessage = startInclusive ? resetIndex : resetIndex + 1; // First message of reset
 
         Producer<byte[]> producer = pulsarClient.newProducer()
@@ -4614,7 +4615,7 @@ public class SimpleProducerConsumerTest extends ProducerConsumerBase {
         final int batchingMaxBytes = 1024;
         final int timeoutSec = 10;
         final byte[] msg = new byte[batchingMaxBytes * 2];
-        new Random().nextBytes(msg);
+        new SecureRandom().nextBytes(msg);
 
         @Cleanup
         Producer<byte[]> producer = pulsarClient.newProducer()

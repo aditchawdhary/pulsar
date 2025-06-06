@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.io.flume.node;
 
+import java.security.SecureRandom;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -141,7 +142,7 @@ public class TestApplication {
         File configFile = new File(baseDir, "flume-conf.properties");
         Files.copy(new File(getClass().getClassLoader()
                 .getResource("flume-conf.properties").getFile()), configFile);
-        Random random = new Random();
+        Random random = new SecureRandom();
         for (int i = 0; i < 3; i++) {
             EventBus eventBus = new EventBus("test-event-bus");
             PollingPropertiesFileConfigurationProvider configurationProvider =

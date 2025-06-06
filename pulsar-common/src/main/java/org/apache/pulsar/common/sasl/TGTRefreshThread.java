@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.common.sasl;
 
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Random;
 import java.util.Set;
@@ -33,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TGTRefreshThread extends Thread {
 
-    private static final Random rng = new Random();
+    private static final Random rng = new SecureRandom();
 
     private long lastLogin;
     private final JAASCredentialsContainer container;

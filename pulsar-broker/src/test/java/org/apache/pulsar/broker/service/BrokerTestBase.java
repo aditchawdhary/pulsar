@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.broker.service;
 
+import java.security.SecureRandom;
 import org.apache.pulsar.broker.ServiceConfiguration;
 import org.apache.pulsar.broker.auth.MockedPulsarServiceBaseTest;
 import org.apache.pulsar.common.naming.SystemTopicNames;
@@ -102,7 +103,7 @@ public abstract class BrokerTestBase extends MockedPulsarServiceBaseTest {
         }
     }
 
-    private static final Random random = new Random();
+    private static final Random random = new SecureRandom();
 
     protected String newTopicName() {
         return "prop/ns-abc/topic-" + Long.toHexString(random.nextLong());

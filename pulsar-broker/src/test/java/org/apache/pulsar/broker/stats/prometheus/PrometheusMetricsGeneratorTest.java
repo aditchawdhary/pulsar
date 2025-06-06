@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.broker.stats.prometheus;
 
+import java.security.SecureRandom;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
@@ -51,7 +52,7 @@ public class PrometheusMetricsGeneratorTest {
         // this will trigger the BufferOverflowException bug in writing the gzip trailer
         // it will also trigger another bug in finishing the gzip compression stream when the compress buffer is full
         // which results in EOFException
-        Random random = new Random();
+        Random random = new SecureRandom();
         byte[] inputBytes = new byte[8192 - 8];
         random.nextBytes(inputBytes);
         ByteBuf byteBuf = Unpooled.wrappedBuffer(inputBytes);

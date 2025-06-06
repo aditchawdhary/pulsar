@@ -26,6 +26,7 @@ import io.netty.util.Timer;
 import io.netty.util.concurrent.DefaultThreadFactory;
 import io.prometheus.client.CollectorRegistry;
 import java.nio.charset.Charset;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -220,7 +221,7 @@ public class TxnLogBufferedWriterTest extends MockedBookKeeperTestCase {
         };
         // Write many times.
         int bufferedWriteCloseAtIndex = writeCmdExecuteCount/2
-                + new Random().nextInt(writeCmdExecuteCount / 4 + 1) - 1;
+                + new SecureRandom().nextInt(writeCmdExecuteCount / 4 + 1) - 1;
         for (int i = 0; i < writeCmdExecuteCount; i++){
             txnLogBufferedWriter.asyncAddData(i, callback, i);
             // Ensure flush at least once before close buffered writer.
@@ -633,7 +634,7 @@ public class TxnLogBufferedWriterTest extends MockedBookKeeperTestCase {
          */
         @Override
         public int getSerializedSize(Integer data) {
-            int size = new Random().nextInt(9);
+            int size = new SecureRandom().nextInt(9);
             totalSize += size;
             return size;
         }

@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.broker.service;
 
+import java.security.SecureRandom;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
@@ -486,7 +487,7 @@ public class ResendRequestTest extends BrokerTestBase {
         TenantInfoImpl tenantInfo = createDefaultTenantInfo();
         admin.tenants().createTenant("prop", tenantInfo);
         admin.topics().createPartitionedTopic(topicName, numberOfPartitions);
-        Random rn = new Random();
+        Random rn = new SecureRandom();
         // Special step to create partitioned topic
 
         // 1. producer connect
@@ -587,7 +588,7 @@ public class ResendRequestTest extends BrokerTestBase {
         TenantInfoImpl tenantInfo = createDefaultTenantInfo();
         admin.tenants().createTenant("prop", tenantInfo);
         admin.topics().createPartitionedTopic(topicName, numberOfPartitions);
-        Random rn = new Random();
+        Random rn = new SecureRandom();
         // Special step to create partitioned topic
 
         // 1. producer connect

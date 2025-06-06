@@ -19,6 +19,7 @@
 package org.apache.pulsar.common.util;
 
 import com.google.common.annotations.VisibleForTesting;
+import java.security.SecureRandom;
 import java.time.Clock;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -38,7 +39,7 @@ public class Backoff {
     private long firstBackoffTimeInMillis;
     private boolean mandatoryStopMade = false;
 
-    private static final Random random = new Random();
+    private static final Random random = new SecureRandom();
 
     Backoff(long initial, TimeUnit unitInitial, long max, TimeUnit unitMax, long mandatoryStop,
             TimeUnit unitMandatoryStop, Clock clock) {
