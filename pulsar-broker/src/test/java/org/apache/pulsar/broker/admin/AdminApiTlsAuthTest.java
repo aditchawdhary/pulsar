@@ -469,7 +469,7 @@ public class AdminApiTlsAuthTest extends MockedPulsarServiceBaseTest {
     public void testCertRefreshForPulsarAdmin() throws Exception {
         String adminUser = "admin";
         String user2 = "user1";
-        File keyFile = File.createTempFile("temp", ".key-pk8");
+        File keyFile = Files.createTempFile("temp", ".key-pk8").toFile();
         Path keyFilePath = Paths.get(keyFile.getAbsolutePath());
         int autoCertRefreshTimeSec = 1;
         try {

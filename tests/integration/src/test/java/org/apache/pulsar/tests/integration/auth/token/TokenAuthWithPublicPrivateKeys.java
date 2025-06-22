@@ -21,6 +21,7 @@ package org.apache.pulsar.tests.integration.auth.token;
 import com.google.common.io.Files;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.concurrent.TimeUnit;
 
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +53,7 @@ public class TokenAuthWithPublicPrivateKeys extends PulsarTokenAuthenticationBas
                         "/bin/cat", PUBLIC_KEY_PATH_INSIDE_CONTAINER)
                 .getStdout();
 
-        publicKeyFile = File.createTempFile("public-", ".key", new File("/tmp"));
+        publicKeyFile = Files.createTempFile(new File("/tmp").toPath(), "public-", ".key").toFile();
         Files.write(publicKeyBytes, publicKeyFile);
 
         clientAuthToken = container

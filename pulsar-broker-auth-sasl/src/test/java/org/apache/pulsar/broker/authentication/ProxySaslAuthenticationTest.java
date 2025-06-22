@@ -186,7 +186,7 @@ public class ProxySaslAuthenticationTest extends ProducerConsumerBase {
 		conf.setAuthenticationEnabled(true);
 		conf.setSaslJaasClientAllowedIds(".*" + localHostname + ".*");
 		conf.setSaslJaasServerSectionName("PulsarBroker");
-		brokerSecretKeyFile = File.createTempFile("saslRoleTokenSignerSecret", ".key");
+		brokerSecretKeyFile = Files.createTempFile("saslRoleTokenSignerSecret", ".key").toFile();
 		Files.write(Paths.get(brokerSecretKeyFile.toString()), "PulsarSecret".getBytes());
 		conf.setSaslJaasServerRoleTokenSignerSecretPath(brokerSecretKeyFile.toString());
 		Set<String> providers = new HashSet<>();
@@ -249,7 +249,7 @@ public class ProxySaslAuthenticationTest extends ProducerConsumerBase {
 		proxyConfig.setBrokerClientAuthenticationParameters(
 			"{\"saslJaasClientSectionName\": " + "\"PulsarProxy\"," +
 				"\"serverType\": " + "\"broker\"}");
-		proxySecretKeyFile = File.createTempFile("saslRoleTokenSignerSecret", ".key");
+		proxySecretKeyFile = Files.createTempFile("saslRoleTokenSignerSecret", ".key").toFile();
 		Files.write(Paths.get(proxySecretKeyFile.toString()), "PulsarSecret".getBytes());
 		proxyConfig.setSaslJaasServerRoleTokenSignerSecretPath(proxySecretKeyFile.toString());
 		// proxy as a server, it will use sasl to authn
