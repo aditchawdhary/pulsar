@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.functions.worker;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -80,7 +82,7 @@ public class FileServer implements AutoCloseable {
         Awaitility.await()
                 .ignoreExceptions()
                 .untilAsserted(() -> {
-                    HttpURLConnection urlConnection = (HttpURLConnection) new URL(getUrl(HEALTH_PATH))
+                    HttpURLConnection urlConnection = (HttpURLConnection) Urls.create(getUrl(HEALTH_PATH), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS)
                             .openConnection();
                     urlConnection.setUseCaches(false);
                     urlConnection.setConnectTimeout(5000);

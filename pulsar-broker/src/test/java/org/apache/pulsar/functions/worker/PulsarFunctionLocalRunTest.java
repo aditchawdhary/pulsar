@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.functions.worker;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.pulsar.broker.auth.MockedPulsarServiceBaseTest.retryStrategically;
 import static org.apache.pulsar.functions.utils.functioncache.FunctionCacheEntry.JAVA_INSTANCE_JAR_PROPERTY;
@@ -262,7 +264,7 @@ public class PulsarFunctionLocalRunTest {
         pulsar.start();
 
         String brokerServiceUrl = pulsar.getWebServiceAddressTls();
-        urlTls = new URL(brokerServiceUrl);
+        urlTls = Urls.create(brokerServiceUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 
         Map<String, String> authParams = new HashMap<>();
         authParams.put("tlsCertFile", TLS_CLIENT_CERT_FILE_PATH);

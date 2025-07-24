@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.web;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.pulsar.broker.stats.prometheus.PrometheusMetricsClient.Metric;
 import static org.apache.pulsar.broker.stats.prometheus.PrometheusMetricsClient.parseMetrics;
 import static org.testng.Assert.assertEquals;
@@ -364,7 +366,7 @@ public class WebServiceTest {
 
         String metricsUrl = pulsar.getWebServiceAddress() + "/metrics/";
 
-        URL url = new URL(metricsUrl);
+        URL url = Urls.create(metricsUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Accept-Encoding", "gzip");
@@ -396,7 +398,7 @@ public class WebServiceTest {
 
         String metricsUrl = pulsar.getWebServiceAddress() + "/metrics/";
 
-        URL url = new URL(metricsUrl);
+        URL url = Urls.create(metricsUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
 
@@ -444,9 +446,9 @@ public class WebServiceTest {
                 SSLContext sslCtx = SSLContext.getInstance("TLS");
                 sslCtx.init(keyManagers, trustManagers, new SecureRandom());
                 HttpsURLConnection.setDefaultSSLSocketFactory(sslCtx.getSocketFactory());
-                response = new URL(BROKER_LOOKUP_URL_TLS).openStream();
+                response = Urls.create(BROKER_LOOKUP_URL_TLS, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
             } else {
-                response = new URL(BROKER_LOOKUP_URL).openStream();
+                response = Urls.create(BROKER_LOOKUP_URL, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
             }
             String resp = CharStreams.toString(new InputStreamReader(response));
             log.info("Response: {}", resp);

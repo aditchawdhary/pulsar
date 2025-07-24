@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.auth;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.pulsar.broker.BrokerTestUtil.spyWithoutRecordingInvocations;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
@@ -377,8 +379,8 @@ public abstract class MockedPulsarServiceBaseTest extends TestRetrySupport {
         this.pulsar = pulsarTestContext.getPulsarService();
         afterPulsarStart(pulsar);
 
-        brokerUrl = pulsar.getWebServiceAddress() != null ? new URL(pulsar.getWebServiceAddress()) : null;
-        brokerUrlTls = pulsar.getWebServiceAddressTls() != null ? new URL(pulsar.getWebServiceAddressTls()) : null;
+        brokerUrl = pulsar.getWebServiceAddress() != null ? Urls.create(pulsar.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS) : null;
+        brokerUrlTls = pulsar.getWebServiceAddressTls() != null ? Urls.create(pulsar.getWebServiceAddressTls(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS) : null;
 
         if (admin != null) {
             admin.close();

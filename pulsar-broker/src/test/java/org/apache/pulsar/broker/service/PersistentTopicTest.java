@@ -19,6 +19,8 @@
 
 package org.apache.pulsar.broker.service;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.pulsar.broker.BrokerTestUtil.spyWithClassAndConstructorArgsRecordingInvocations;
 import static org.apache.pulsar.common.protocol.Commands.DEFAULT_CONSUMER_EPOCH;
 import static org.mockito.ArgumentMatchers.any;
@@ -1777,9 +1779,8 @@ public class PersistentTopicTest extends MockedBookKeeperTestCase {
         PersistentTopic topic = new PersistentTopic(globalTopicName, ledgerMock, brokerService);
 
         PulsarService pulsar = pulsarTestContext.getPulsarService();
-        final URL brokerUrl = new URL(
-                "http://" + pulsar.getAdvertisedAddress() + ":" + pulsar.getConfiguration().getBrokerServicePort()
-                        .get());
+        final URL brokerUrl = Urls.create("http://" + pulsar.getAdvertisedAddress() + ":" + pulsar.getConfiguration().getBrokerServicePort()
+                        .get(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         @Cleanup
         PulsarClient client = spy(PulsarClient.builder().serviceUrl(brokerUrl.toString()).build());
         PulsarClientImpl clientImpl = (PulsarClientImpl) client;

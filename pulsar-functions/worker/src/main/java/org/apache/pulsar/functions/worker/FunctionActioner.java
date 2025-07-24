@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.functions.worker;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.pulsar.common.functions.Utils.FILE;
@@ -158,7 +160,7 @@ public class FunctionActioner {
             if (!packageUrlValidator.isValidPackageUrl(componentType, packagePath)) {
                 throw new IllegalArgumentException("Package URL " + packagePath + " is not valid");
             }
-            URL url = new URL(packagePath);
+            URL url = Urls.create(packagePath, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             File pkgFile = new File(url.toURI());
             packageFile = pkgFile.getAbsolutePath();
         } else if (FunctionCommon.isFunctionCodeBuiltin(functionDetails, componentType)) {

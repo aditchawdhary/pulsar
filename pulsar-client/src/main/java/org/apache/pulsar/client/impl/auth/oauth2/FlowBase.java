@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.client.impl.auth.oauth2;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -72,7 +74,7 @@ abstract class FlowBase implements Flow {
             throw new IllegalArgumentException("Required configuration parameter: " + name);
         }
         try {
-            return new URL(s);
+            return Urls.create(s, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Malformed configuration parameter: " + name);
         }

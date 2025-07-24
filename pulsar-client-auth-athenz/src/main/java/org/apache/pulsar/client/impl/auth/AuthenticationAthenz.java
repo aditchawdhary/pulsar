@@ -19,6 +19,8 @@
 package org.apache.pulsar.client.impl.auth;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import com.google.common.io.CharStreams;
@@ -238,7 +240,7 @@ public class AuthenticationAthenz implements Authentication, EncodedAuthenticati
 
     private static String getAbsolutePathFromUrl(String urlString) {
         try {
-            java.net.URL url = new URL(urlString).openConnection().getURL();
+            java.net.URL url = Urls.create(urlString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openConnection().getURL();
             checkArgument("file".equals(url.getProtocol()), "Unsupported protocol: %s", url.getProtocol());
             Path path = Paths.get(url.getPath());
             return path.isAbsolute() ? path.toString() : path.toAbsolutePath().toString();
@@ -252,7 +254,7 @@ public class AuthenticationAthenz implements Authentication, EncodedAuthenticati
     private static PrivateKey loadPrivateKey(String privateKeyURL) {
         PrivateKey privateKey = null;
         try {
-            URLConnection urlConnection = new URL(privateKeyURL).openConnection();
+            URLConnection urlConnection = Urls.create(privateKeyURL, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openConnection();
             String protocol = urlConnection.getURL().getProtocol();
             if ("data".equals(protocol) && !APPLICATION_X_PEM_FILE.equals(urlConnection.getContentType())) {
                 throw new IllegalArgumentException(

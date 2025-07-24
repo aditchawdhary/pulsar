@@ -19,6 +19,8 @@
 package org.apache.pulsar.io.elasticsearch.client;
 
 import com.google.common.base.Strings;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
@@ -234,7 +236,7 @@ public abstract class RestClient implements Closeable {
         final String url = config.getElasticSearchUrl();
         return Arrays.stream(url.split(",")).map(host -> {
             try {
-                URL hostUrl = new URL(host);
+                URL hostUrl = Urls.create(host, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                 return new HttpHost(hostUrl.getHost(), hostUrl.getPort(),
                         hostUrl.getProtocol());
             } catch (MalformedURLException e) {

@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.admin;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -1060,7 +1062,7 @@ public class AdminApiTest extends MockedPulsarServiceBaseTest {
         admin.topics().createPartitionedTopic(partitionedTopicName, 4);
 
         // create consumer and subscription
-        URL pulsarUrl = new URL(pulsar.getWebServiceAddress());
+        URL pulsarUrl = Urls.create(pulsar.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         @Cleanup
         PulsarClient client = PulsarClient.builder().serviceUrl(pulsarUrl.toString()).statsInterval(0, TimeUnit.SECONDS)
                 .build();
@@ -1105,7 +1107,7 @@ public class AdminApiTest extends MockedPulsarServiceBaseTest {
         admin.topics().createNonPartitionedTopic(topicName);
 
         // create consumer and subscription
-        URL pulsarUrl = new URL(pulsar.getWebServiceAddress());
+        URL pulsarUrl = Urls.create(pulsar.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         @Cleanup
         PulsarClient client = PulsarClient.builder().serviceUrl(pulsarUrl.toString()).statsInterval(0, TimeUnit.SECONDS)
                 .build();
@@ -2951,7 +2953,7 @@ public class AdminApiTest extends MockedPulsarServiceBaseTest {
         admin.topics().createPartitionedTopic("persistent://prop-xyz/ns1/ds1", 4);
 
         // create consumer and subscription
-        URL pulsarUrl = new URL(pulsar.getWebServiceAddress());
+        URL pulsarUrl = Urls.create(pulsar.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         @Cleanup
         PulsarClient client = PulsarClient.builder().serviceUrl(pulsarUrl.toString()).statsInterval(0, TimeUnit.SECONDS)
                 .build();

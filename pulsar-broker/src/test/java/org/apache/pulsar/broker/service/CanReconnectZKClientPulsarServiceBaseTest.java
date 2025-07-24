@@ -19,6 +19,8 @@
 package org.apache.pulsar.broker.service;
 
 import com.google.common.collect.Sets;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import io.netty.channel.Channel;
 import java.net.URL;
 import java.nio.channels.SelectionKey;
@@ -82,8 +84,8 @@ public abstract class CanReconnectZKClientPulsarServiceBaseTest extends TestRetr
         Object sendThread = WhiteboxImpl.getInternalState(cnxn, "sendThread");
         localMetaDataStoreClientCnx = WhiteboxImpl.getInternalState(sendThread, "clientCnxnSocket");
 
-        url = new URL(pulsar.getWebServiceAddress());
-        urlTls = new URL(pulsar.getWebServiceAddressTls());
+        url = Urls.create(pulsar.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
+        urlTls = Urls.create(pulsar.getWebServiceAddressTls(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         admin = PulsarAdmin.builder().serviceHttpUrl(url.toString()).build();
         client = PulsarClient.builder().serviceUrl(url.toString()).build();
     }

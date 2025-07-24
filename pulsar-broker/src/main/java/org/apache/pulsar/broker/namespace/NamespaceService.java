@@ -19,6 +19,8 @@
 package org.apache.pulsar.broker.namespace;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -344,7 +346,7 @@ public class NamespaceService implements AutoCloseable {
                     LookupData lookupData = optResult.get().getLookupData();
                     final String redirectUrl = options.isRequestHttps()
                             ? lookupData.getHttpUrlTls() : lookupData.getHttpUrl();
-                    return CompletableFuture.completedFuture(Optional.of(new URL(redirectUrl)));
+                    return CompletableFuture.completedFuture(Optional.of(Urls.create(redirectUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS)));
                 } catch (Exception e) {
                     // just log the exception, nothing else to do
                     LOG.warn("internalGetWebServiceUrl [{}]", e.getMessage(), e);
@@ -362,7 +364,7 @@ public class NamespaceService implements AutoCloseable {
                         LookupData lookupData = lookupResult.get().getLookupData();
                         final String redirectUrl = options.isRequestHttps()
                                 ? lookupData.getHttpUrlTls() : lookupData.getHttpUrl();
-                        return Optional.of(new URL(redirectUrl));
+                        return Optional.of(Urls.create(redirectUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
                     } catch (Exception e) {
                         // just log the exception, nothing else to do
                         LOG.warn("internalGetWebServiceUrl [{}]", e.getMessage(), e);

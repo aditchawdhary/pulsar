@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.client.impl;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URLConnection;
@@ -91,7 +93,7 @@ public class DefaultCryptoKeyReader implements CryptoKeyReader {
 
     private byte[] loadKey(String keyUrl) throws IOException, IllegalAccessException, InstantiationException {
         try {
-            URLConnection urlConnection = new URL(keyUrl).openConnection();
+            URLConnection urlConnection = Urls.create(keyUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openConnection();
             try {
                 String protocol = urlConnection.getURL().getProtocol();
                 if ("data".equals(protocol) && !APPLICATION_X_PEM_FILE.equals(urlConnection.getContentType())) {

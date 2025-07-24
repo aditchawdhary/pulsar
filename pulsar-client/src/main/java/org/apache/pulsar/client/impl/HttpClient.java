@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.client.impl;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import io.netty.channel.EventLoopGroup;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -183,7 +185,7 @@ public class HttpClient implements Closeable {
         final CompletableFuture<T> future = new CompletableFuture<>();
         try {
             URI hostUri = serviceNameResolver.resolveHostUri();
-            String requestUrl = new URL(hostUri.toURL(), path).toString();
+            String requestUrl = Urls.create(hostUri.toURL(), path, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).toString();
             String remoteHostName = hostUri.getHost();
             AuthenticationDataProvider authData = authentication.getAuthData(remoteHostName);
 

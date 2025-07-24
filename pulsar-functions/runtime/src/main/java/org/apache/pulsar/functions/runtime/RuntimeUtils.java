@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.functions.runtime;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -527,7 +529,7 @@ public class RuntimeUtils {
 
     public static String getPrometheusMetrics(int metricsPort) throws IOException {
         StringBuilder result = new StringBuilder();
-        URL url = new URL(String.format("http://%s:%s", InetAddress.getLocalHost().getHostAddress(), metricsPort));
+        URL url = Urls.create(String.format("http://%s:%s", InetAddress.getLocalHost().getHostAddress(), metricsPort), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
