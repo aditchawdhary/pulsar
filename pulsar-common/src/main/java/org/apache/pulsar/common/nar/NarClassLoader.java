@@ -22,6 +22,7 @@
  */
 package org.apache.pulsar.common.nar;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
@@ -211,7 +212,7 @@ public class NarClassLoader extends URLClassLoader {
         try (BufferedReader reader = new BufferedReader(
             new InputStreamReader(new FileInputStream(serviceDefPath), StandardCharsets.UTF_8))) {
             String line;
-            while ((line = reader.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                 line = line.trim();
                 if (!line.isEmpty() && !line.startsWith("#")) {
                     final int indexOfPound = line.indexOf("#");

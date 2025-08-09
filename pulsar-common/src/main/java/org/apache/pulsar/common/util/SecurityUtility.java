@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.common.util;
 
+import io.github.pixee.security.BoundedLineReader;
 import io.netty.handler.ssl.ClientAuth;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
@@ -512,12 +513,12 @@ public class SecurityUtility {
             String currentLine = null;
 
             // Jump to the first line after -----BEGIN [RSA] PRIVATE KEY-----
-            while ((currentLine = reader.readLine()) != null && !currentLine.startsWith("-----BEGIN")) {
-                reader.readLine();
+            while ((currentLine = BoundedLineReader.readLine(reader, 5_000_000)) != null && !currentLine.startsWith("-----BEGIN")) {
+                BoundedLineReader.readLine(reader, 5_000_000);
             }
 
             // Stop (and skip) at the last line that has, say, -----END [RSA] PRIVATE KEY-----
-            while ((currentLine = reader.readLine()) != null && !currentLine.startsWith("-----END")) {
+            while ((currentLine = BoundedLineReader.readLine(reader, 5_000_000)) != null && !currentLine.startsWith("-----END")) {
                 sb.append(currentLine);
             }
             final KeySpec keySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(sb.toString()));
