@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.testclient;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.apache.pulsar.broker.resources.LoadBalanceResources.BUNDLE_DATA_BASE_PATH;
 import static org.apache.pulsar.broker.resources.LoadBalanceResources.RESOURCE_QUOTA_BASE_PATH;
 import java.io.BufferedReader;
@@ -640,10 +641,10 @@ public class LoadSimulationController extends CmdBase{
                     final String scriptName = commandArguments.get(1);
                     final BufferedReader scriptReader = new BufferedReader(
                             new InputStreamReader(new FileInputStream(Paths.get(scriptName).toFile())));
-                    String line = scriptReader.readLine();
+                    String line = BoundedLineReader.readLine(scriptReader, 5_000_000);
                     while (line != null) {
                         read(line.split("\\s+"));
-                        line = scriptReader.readLine();
+                        line = BoundedLineReader.readLine(scriptReader, 5_000_000);
                     }
                     scriptReader.close();
                     break;
@@ -681,7 +682,7 @@ public class LoadSimulationController extends CmdBase{
             // Print the very simple prompt.
             System.out.println();
             System.out.print("> ");
-            read(inReader.readLine().split("\\s+"));
+            read(BoundedLineReader.readLine(inReader, 5_000_000).split("\\s+"));
         }
     }
 

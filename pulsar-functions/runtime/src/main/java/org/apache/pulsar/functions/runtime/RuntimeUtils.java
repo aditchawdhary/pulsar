@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.functions.runtime;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -532,7 +533,7 @@ public class RuntimeUtils {
         conn.setRequestMethod("GET");
         BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String line;
-        while ((line = rd.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(rd, 5_000_000)) != null) {
             result.append(line + System.lineSeparator());
         }
         rd.close();

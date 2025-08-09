@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.metadata;
 
+import io.github.pixee.security.BoundedLineReader;
 import static org.testng.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.File;
@@ -167,7 +168,7 @@ public class TestZKServer implements AutoCloseable {
                     outstream.flush();
 
                     reader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-                    String line = reader.readLine();
+                    String line = BoundedLineReader.readLine(reader, 5_000_000);
                     if (line != null && line.startsWith("Zookeeper version:")) {
                         log.info("ZK Server UP");
                         return true;
